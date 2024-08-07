@@ -22,4 +22,4 @@ jobs:
         go-version: '1.22.5'
 
     - name: Build Windows
-       run: env GOOS=windows GOARCH=amd64 go build -v -o vrmerge.exe .
+      run: env GOOS=windows GOARCH=amd64 go build -v -o vrmerge.exe .
