@@ -10,23 +10,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-
-  build:
+  generate:
+    name: Generate cross-platform builds
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.22.5'
-
-    - name: Build Windows
-       run: env GOOS=windows GOARCH=amd64 go build -v -o vrmerge.exe ./...
-
-    - name: Build OSX
-       run: env GOOS=darwin GOARCH=amd64 go build -v -o vrmerge_osx ./...
-
-    - name: Build Linux
-       run: env GOOS=Linux GOARCH=amd64 go build -v -o vrmerge_linux ./...
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Generate build files
+        uses: thatisuday/go-cross-build@v1
+        with:
+            platforms: 'linux/amd64, darwin/amd64, windows/amd64'
+            package: ''
+            name: 'vrmerge'
+            compress: 'true'
+            dest: 'dist'
     
