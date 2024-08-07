@@ -8,20 +8,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        goos: [linux, windows, darwin]
-        goarch: [amd64]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v3
         with:
           go-version: '1.22'
-      - run: env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o vrmerge-${{ matrix.goos }}-${{ matrix.goarch }} ./...
+      - run: env GOOS=windows GOARCH=amd64 go build -o vrmerge-windows.exe ./...
+      - run: env GOOS=darwin GOARCH=amd64 go build -o vrmerge-darwin ./...
+      - run: env GOOS=linux GOARCH=amd64 go build -o vrmerge-linux ./...
       - uses: actions/upload-artifact@v3
         with:
           name: binaries
-          path: vrmerge-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: vrmerge-*
 
   release:
     needs: build
@@ -34,6 +32,4 @@ jobs:
       - uses: softprops/action-gh-release@v1
         with:
           files: |
-            vrmerge-linux-amd64
-            vrmerge-windows-amd64.exe
-            vrmerge-darwin-amd64
+            vrmerge-*
