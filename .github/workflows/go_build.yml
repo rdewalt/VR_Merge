@@ -23,3 +23,9 @@ jobs:
 
     - name: Build Windows
       run: env GOOS=windows GOARCH=amd64 go build -v -o vrmerge.exe .
+
+    - name: Build OSX
+      run: env GOOS=darwin GOARCH=amd64 go build -v -o vrmerge_darwin .
+
+    - name: Build Linux
+      run: env GOOS=linux GOARCH=amd64 go build -v -o vrmerge_linux .
